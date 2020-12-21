@@ -1,0 +1,14 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "description": "Barotrauma bot for RP server's",
+  "main": "bot.js",
+  "scripts": {
+    "test": "!test"
+  },
+  "author": "Fuuka#6189",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.1"
+  }
+}
