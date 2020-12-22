@@ -1,12 +1,20 @@
-# Initial page
+# Bot command's \(Технический уровень доступа\)
 
-## Can I become who I want to be?
+## Введение базы данных о юзерах
 
-That's a tough question but thankfully, our team is on it. Please bear with us while we're investigating.
+Бот записывает данные о всех новых юзерах и сравнивает их на совпадение.
 
-## Have you had a chance to answer the previous question?
+* [x] Готово
 
-Yes, after a few months we finally found the answer. Sadly, Mike is on vacations right now so I'm afraid we are not able to provide the answer at this point.
+## !userslist
 
+Команда которая выводит всю базу данных пользователей.
 
+* [x] Готово
+
+## !get \(id\)
+
+Команда которая выводит информацию по ID пользователя из базы данных.
+
+* [x] Готово
 

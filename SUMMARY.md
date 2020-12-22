@@ -1,4 +1,5 @@
 # Table of contents
 
-* [Initial page](README.md)
+* [Bot command's \(Технический уровень доступа\)](README.md)
+* [Bot command's \(Администратор\)](bot-commands-administrator.md)
 
