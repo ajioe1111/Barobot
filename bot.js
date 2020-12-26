@@ -45,40 +45,35 @@ client.on('message', msg => {
         if (msg.content === prefix + 'bot') {
             about(msg);
         };
-        if (msg.content.startsWith(prefix + 'test')) {
-            let user = msg.mentions.users.first();
-            console.log(user.createdAt)
-        }
         //Выводит информацию о пользователе ВНЕ база дынных.
         if (msg.content.startsWith(prefix + 'info')) {
-            let user = msg.mentions.users.first();
-            if (user) {
-                let userID = user.id;
-                const embed = new MessageEmbed()
-                    .setImage(user.displayAvatarURL())
-                    .setAuthor(`Вызвал команду ${msg.author.username}`)
-                    .setTitle(`Информация о ${user.username}`)
-                    .addField(`ID:`, `<@${userID}> ${userID}`)
-                    .addField(`Регистрация:`, `${user.createdAt}`)
-                    .addField(`ТЭГ:`, `${user.tag}`)
-                    .setColor(0xff0000);
-                botlog.send(embed);
-            } else { botlog.send(`Текущего юзера нету на сервере, воспользуйтесь командой !infoID или запросите базу данных`) }
+            info(msg, botlog);
         }
         //Выводит базу данных.
         if (msg.content.startsWith(prefix + `userslist`)) {
-            let listing = fs.readdirSync("./database/users", `utf-8`);
-            for (let i = 0; i < listing.length; i++) {
-                let findUser = (`./database/users/${listing[i]}`);
-                let cacheUser = fs.readFileSync(findUser).toString();
-                let users = JSON.parse(cacheUser);
-                botlog.send(listing[i] + `\r\n Nickname: ${users.user}\r\n ID: ${users.id}\r\n ClickID: <@${users.id}>\r\n UserTag ${users.user_tag}\r\n .`);
-
-            }
+            userslist(msg, botlog);
         }
         //Выводит информацию по ID пользователя из базы.
         if (msg.content.startsWith(prefix + `get`)) {
-            let args = msg.content.split(' ');
+            getUser(msg, botlog);
+        }
+
+        if (msg.content.startsWith(prefix + 'mute')) {
+            muted(msg, guild, botlog);
+        }
+
+    } else { msg.reply(`Недостаточно прав`) }
+});
+
+
+
+
+
+
+
+//Зона функций
+function getUser(msg, botlog) {
+    let args = msg.content.split(' ');
             let findUser = (`./database/users/${args[1]}`);
             let listing = fs.readdirSync("./database/users", `utf-8`);
             let find = false;
@@ -90,19 +85,66 @@ client.on('message', msg => {
                         botlog.send(`Информация о пользователе ${users.user}\r\n ID пользователя: ${users.id}\r\n Click ID: <@${users.id}>\r\n Зарегистрирован: ${users.created_at}\r\n Аватар пользователя: ${users.avatarURL}\r\n Тэг пользователя: ${users.user_tag}`);
                         find = true;
                     }
-                } 
-            } if (find == false) { botlog.send(`Пользователь не найден! проверьте базу или правильность написания команды!`)}
-        }
-    } else { msg.reply(`Недостаточно прав`) }
-});
+                }
+            } if (find == false) { botlog.send(`Пользователь не найден! проверьте базу или правильность написания команды!`) }
+}
 
+function userslist(msg, botlog) {
+    let listing = fs.readdirSync("./database/users", `utf-8`);
+    for (let i = 0; i < listing.length; i++) {
+        let findUser = (`./database/users/${listing[i]}`);
+        let cacheUser = fs.readFileSync(findUser).toString();
+        let users = JSON.parse(cacheUser);
+        botlog.send(listing[i] + `\r\n Nickname: ${users.user}\r\n ID: ${users.id}\r\n ClickID: <@${users.id}>\r\n UserTag ${users.user_tag}\r\n .`);
+    }
+};
 
+function info(msg, botlog) {
+    let user = msg.mentions.users.first();
+    if (user) {
+        let userID = user.id;
+        const embed = new MessageEmbed()
+            .setImage(user.displayAvatarURL())
+            .setAuthor(`Вызвал команду ${msg.author.username}`)
+            .setTitle(`Информация о ${user.username}`)
+            .addField(`ID:`, `<@${userID}> ${userID}`)
+            .addField(`Регистрация:`, `${user.createdAt}`)
+            .addField(`ТЭГ:`, `${user.tag}`)
+            .setColor(0xff0000);
+        botlog.send(embed);
+    } else { botlog.send(`Текущего юзера нету на сервере, воспользуйтесь командой !infoID или запросите базу данных`) }
+}
 
+function muted(msg, guild, botlog) {
+    let user = msg.mentions.users.first();
+    let args = getArguments(msg.content);
+    if (user) {
+        let findUser = guild.members.cache.find(member => member.id == user.id);
+        if (findUser) {
+            let mutedRole = guild.roles.cache.find(role => role.name == `mute`);
+            if (mutedRole) {
+                findUser.roles.add(mutedRole);
+                if (args[2] != undefined) {
+                    botlog.send(`Выдан мьют пользователю ${user}\r\n Мьют выдан пользователем ${msg.author}\r\nПричина ${args[2]}`);
+                } else { botlog.send(`Выдан мьют пользователю ${user}\r\n Мьют выдан пользователем ${msg.author}`) };
+            } else { msg.reply(`Отсутствует роль 'mute'`) };
+        } else { msg.reply(`Данный юзер отсутствует на сервере!`) };
+    } else { msg.reply(`Не указан юзер`) }
+}
 
+/**
+ * Splits the complex input command to the logical words and phrases
+ * @param {string} command Clear command without prefixes
+ */
+function getArguments(command) {
+    // Splits the complex input command to the logical words and phrases
+    // 'clear "typical complex" sooqa' => ["clear", "typical complex", "sooqa"]
+    const pattern = /("{1}[^"]*"{1}|-{1,2}\w+|\w+)/ig;
 
+    let arguements = command.match(pattern);
+    return arguements;
+}
 
-
-//Зона функций
 
 function userDataSave(member) {
     let username = member.displayName;
