@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const moment = require('moment');
 const { Client, MessageEmbed } = require('discord.js');
 const client = new Discord.Client();
 const fs = require('fs');
@@ -36,6 +37,7 @@ client.on('message', msg => {
     let userPermission = guildMember.hasPermission("ADMINISTRATOR");
     if (userPermission) {
         let botlog = client.channels.cache.find(channel => channel.name == "bot-log");
+        let channelev = client.channels.cache.find(channel => channel.name == "обьявления");
         //Удаляет N сообщения из чата где введена команда.
         if (msg.content.startsWith(prefix + 'clear')) {
             let args = msg.content.split(' ');
@@ -61,6 +63,16 @@ client.on('message', msg => {
         if (msg.content.startsWith(prefix + 'mute')) {
             muted(msg, guild, botlog);
         }
+        if (msg.content.startsWith(prefix + `unmute`)) {
+            unmuted(msg, guild, botlog);
+        }
+        if (msg.content.startsWith(prefix + `event`)) {
+            events(msg, channelev);
+        }
+
+        if (msg.content.startsWith(prefix + `test`)) {
+            console.log(0 == 00)
+        }
 
     } else { msg.reply(`Недостаточно прав`) }
 });
@@ -72,21 +84,70 @@ client.on('message', msg => {
 
 
 //Зона функций
+/**
+ * 
+ * @param {Discord.Message} msg 
+ */
+function events(msg, channelev) {
+    let args = getArguments(msg.content);
+    let timeArgs = args[1];
+    let time = timeArgs.slice(1, timeArgs.length - 1);
+    let eventNameArgs = args[2];
+    let eventName = eventNameArgs.slice(1, eventNameArgs.length - 1);
+    console.log(eventName, time);
+    let timeStage = 30;
+    
+    let targetDate = new Date();
+    let HMS = time.split(':');
+    targetDate.setHours(HMS[0]);
+    targetDate.setMinutes(HMS[1] - timeStage);
+    targetDate.setSeconds(HMS[2]);
+
+    if (targetDate < new Date())
+        targetDate = new Date(targetDate.getDate() + 1);
+
+    let dateDiff = targetDate - new Date();
+
+    setTimeout(() => channelev.send(`@everyone Напоминаю про игру! в ${time} по МСК!`), dateDiff)
+    channelev.send(`@everyone Обьявлена игра!\r\n${eventName}\r\nНа: ${time} по МСК!`);
+
+}
+
+
+
+
+function unmuted(msg, guild, botlog) {
+    let user = msg.mentions.users.first();
+    let args = getArguments(msg.content);
+    if (user) {
+        let findUser = guild.members.cache.find(member => member.id == user.id);
+        if (findUser) {
+            let mutedRole = guild.roles.cache.find(role => role.name == `mute`);
+            if (mutedRole) {
+                findUser.roles.remove(mutedRole);
+                if (args[2] != undefined) {
+                    botlog.send(`Мьют снят с пользователя: ${user}\r\nСнял: ${msg.author}\r\nПричина: ${args[2]}`);
+                } else { botlog.send(`Мьют снят с пользователя: ${user}\r\nСнял: ${msg.author}`) };
+            } else { msg.reply(`Отсутствует роль 'mute'`) };
+        } else { msg.reply(`Данный юзер отсутствует на сервере!`) };
+    } else { msg.reply(`Не указан юзер`) }
+}
+
 function getUser(msg, botlog) {
     let args = msg.content.split(' ');
-            let findUser = (`./database/users/${args[1]}`);
-            let listing = fs.readdirSync("./database/users", `utf-8`);
-            let find = false;
-            if (find == false) {
-                for (let i = 0; i < listing.length; i++) {
-                    if (findUser == `./database/users/${listing[i]}`) {
-                        let cacheUser = fs.readFileSync(findUser).toString();
-                        let users = JSON.parse(cacheUser);
-                        botlog.send(`Информация о пользователе ${users.user}\r\n ID пользователя: ${users.id}\r\n Click ID: <@${users.id}>\r\n Зарегистрирован: ${users.created_at}\r\n Аватар пользователя: ${users.avatarURL}\r\n Тэг пользователя: ${users.user_tag}`);
-                        find = true;
-                    }
-                }
-            } if (find == false) { botlog.send(`Пользователь не найден! проверьте базу или правильность написания команды!`) }
+    let findUser = (`./database/users/${args[1]}`);
+    let listing = fs.readdirSync("./database/users", `utf-8`);
+    let find = false;
+    if (find == false) {
+        for (let i = 0; i < listing.length; i++) {
+            if (findUser == `./database/users/${listing[i]}`) {
+                let cacheUser = fs.readFileSync(findUser).toString();
+                let users = JSON.parse(cacheUser);
+                botlog.send(`Информация о пользователе ${users.user}\r\n ID пользователя: ${users.id}\r\n Click ID: <@${users.id}>\r\n Зарегистрирован: ${users.created_at}\r\n Аватар пользователя: ${users.avatarURL}\r\n Тэг пользователя: ${users.user_tag}`);
+                find = true;
+            }
+        }
+    } if (find == false) { botlog.send(`Пользователь не найден! проверьте базу или правильность написания команды!`) }
 }
 
 function userslist(msg, botlog) {
@@ -125,8 +186,8 @@ function muted(msg, guild, botlog) {
             if (mutedRole) {
                 findUser.roles.add(mutedRole);
                 if (args[2] != undefined) {
-                    botlog.send(`Выдан мьют пользователю ${user}\r\n Мьют выдан пользователем ${msg.author}\r\nПричина ${args[2]}`);
-                } else { botlog.send(`Выдан мьют пользователю ${user}\r\n Мьют выдан пользователем ${msg.author}`) };
+                    botlog.send(`Выдан мьют пользователю: ${user}\r\nМьют выдан пользователем: ${msg.author}\r\nПричина: ${args[2]}`);
+                } else { botlog.send(`Выдан мьют пользователю: ${user}\r\nМьют выдан пользователем: ${msg.author}`) };
             } else { msg.reply(`Отсутствует роль 'mute'`) };
         } else { msg.reply(`Данный юзер отсутствует на сервере!`) };
     } else { msg.reply(`Не указан юзер`) }
