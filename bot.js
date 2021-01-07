@@ -15,16 +15,24 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 
 });
+//Когда юзер покинул сервер или его кикнули.
+client.on('guildMemberRemove', member =>{
+    let botlog = client.channels.cache.find(channel => channel.name == "bot-log");
+    console.log(`Member left ${member}`);
+    let cachePath = `./database/users/${member.id}.json`
+    botlog.send(`${member} покинул сервер. Его ID: ${member.id}`);
+})
 
 //Когда зашел новый юзер
 client.on('guildMemberAdd', member => {
     let botlog = client.channels.cache.find(channel => channel.name == "bot-log");
-    console.log(`New member joined ${member}`)
+    console.log(`New member joined ${member}`);
     let cachePath = `./database/users/${member.id}.json`
     if (fs.existsSync(cachePath) == true) {
-        botlog.send(`${member.displayName} уже был на сервере! его ID ${member.id} (<@${member.id}>)`)
+        botlog.send(`Зашел ${member.displayName} и он уже есть в базе, его ID ${member.id} (<@${member.id}>)`)
     }
     else {
+        member.send(``)
         userDataSave(member);
         botlog.send(`Зашел новый Юзер! <@${member.id}>`)
     }
@@ -70,9 +78,6 @@ client.on('message', msg => {
             events(msg, channelev);
         }
 
-        if (msg.content.startsWith(prefix + `test`)) {
-            console.log(0 == 00)
-        }
 
     } else { msg.reply(`Недостаточно прав`) }
 });
@@ -158,7 +163,7 @@ function userslist(msg, botlog) {
         let findUser = (`./database/users/${listing[i]}`);
         let cacheUser = fs.readFileSync(findUser).toString();
         let users = JSON.parse(cacheUser);
-        botlog.send(listing[i] + `\r\n Nickname: ${users.user}\r\n ID: ${users.id}\r\n ClickID: <@${users.id}>\r\n UserTag ${users.user_tag}\r\n .`);
+        botlog.send(`get`+ ` ` + listing[i] + `\r\n Nickname: ${users.user}\r\n ID: ${users.id}\r\n ClickID: <@${users.id}>\r\n UserTag ${users.user_tag}\r\n .`);
     }
 };
 
@@ -244,6 +249,7 @@ function about(message) {
         .setThumbnail(message.author.defaultAvatarURL)
         .addField("Server Name", message.guild.name)
         .addField("Bot Name", message.client.user.username)
+        .addField("Bot version", "1.0.0")
         .addField("Created On", message.client.user.createdAt);
 
     message.channel.send(serverembed);
