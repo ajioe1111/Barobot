@@ -94,25 +94,27 @@ function events(msg, channelev) {
     let time = timeArgs.slice(1, timeArgs.length - 1);
     let eventNameArgs = args[2];
     let eventName = eventNameArgs.slice(1, eventNameArgs.length - 1);
-    console.log(eventName, time);
-    let timeStage = 30;
-    
+
+    setTimeout(() => channelev.send(`@everyone Напоминаю про игру! в ${time} по МСК!`), getNotificationTimeout(time, 30));
+    setTimeout(() => channelev.send(`@everyone Напоминаю про игру! в ${time} по МСК!`), getNotificationTimeout(time, 10));
+    setTimeout(() => channelev.send(`@everyone Напоминаю про игру! в ${time} по МСК!`), getNotificationTimeout(time, 5));
+
+    channelev.send(`@everyone Обьявлена игра!\r\n${eventName}\r\nНа: ${time} по МСК!`);
+}
+
+function getNotificationTimeout(time, beforeMinutes) {
     let targetDate = new Date();
     let HMS = time.split(':');
     targetDate.setHours(HMS[0]);
-    targetDate.setMinutes(HMS[1] - timeStage);
+    targetDate.setMinutes(HMS[1] - beforeMinutes);
     targetDate.setSeconds(HMS[2]);
 
     if (targetDate < new Date())
         targetDate = new Date(targetDate.getDate() + 1);
 
     let dateDiff = targetDate - new Date();
-
-    setTimeout(() => channelev.send(`@everyone Напоминаю про игру! в ${time} по МСК!`), dateDiff)
-    channelev.send(`@everyone Обьявлена игра!\r\n${eventName}\r\nНа: ${time} по МСК!`);
-
+    return dateDiff;
 }
-
 
 
 
@@ -219,10 +221,16 @@ function userDataSave(member) {
 }
 
 function hardDeleted(args1, msg) {
-    msg.channel.bulkDelete(args1);
-    msg.channel.send(`Удалено ${args1} сообщений!`)
-        .then(message => setTimeout(() => message.delete(), 1000))
-        .catch(console.error)
+    if (args1 > 100) {
+        msg.reply("Слишком большое значение! можно удалять не больше 100 сообщений за раз!")
+            .then(message => setTimeout(() => message.delete(), 3000))
+            .catch(console.error)
+    } else {
+        msg.channel.bulkDelete(args1);
+        msg.channel.send(`Удалено ${args1} сообщений!`)
+            .then(message => setTimeout(() => message.delete(), 1000))
+            .catch(console.error)
+    }
 
 }
 /**
