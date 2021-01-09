@@ -43,9 +43,18 @@ client.on('message', msg => {
     let guild = msg.guild;
     let guildMember = guild.members.cache.find(member => member.user.id == msg.author.id);
     let userPermission = guildMember.hasPermission("VIEW_AUDIT_LOG");
+    let userPermissionAdm = guildMember.hasPermission("ADMINISTRATOR");
     if (userPermission) {
         let botlog = client.channels.cache.find(channel => channel.name == "bot-log" && channel.guild.id == msg.guild.id);
         let channelev = client.channels.cache.find(channel => channel.name == "обьявления" && channel.guild.id == msg.guild.id);
+        if (userPermissionAdm) {
+            if (msg.content.startsWith(prefix + `get`)) {
+                getUser(msg, botlog);
+            }
+            if (msg.content.startsWith(prefix + `userslist`)) {
+                userslist(msg, botlog);
+            }
+        }
         //Удаляет N сообщения из чата где введена команда.
         if (msg.content.startsWith(prefix + 'clear')) {
             let args = msg.content.split(' ');
@@ -60,13 +69,6 @@ client.on('message', msg => {
             info(msg, botlog);
         }
         //Выводит базу данных.
-        if (msg.content.startsWith(prefix + `userslist`)) {
-            userslist(msg, botlog);
-        }
-        //Выводит информацию по ID пользователя из базы.
-        if (msg.content.startsWith(prefix + `get`)) {
-            getUser(msg, botlog);
-        }
 
         if (msg.content.startsWith(prefix + 'mute')) {
             muted(msg, guild, botlog);
@@ -77,6 +79,7 @@ client.on('message', msg => {
         if (msg.content.startsWith(prefix + `event`)) {
             events(msg, channelev);
         }
+
 
 
     }
