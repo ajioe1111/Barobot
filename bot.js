@@ -16,7 +16,7 @@ client.on('ready', () => {
 
 });
 //Когда юзер покинул сервер или его кикнули.
-client.on('guildMemberRemove', member =>{
+client.on('guildMemberRemove', member => {
     let botlog = client.channels.cache.find(channel => channel.name == "bot-log");
     console.log(`Member left ${member}`);
     let cachePath = `./database/users/${member.id}.json`
@@ -44,8 +44,8 @@ client.on('message', msg => {
     let guildMember = guild.members.cache.find(member => member.user.id == msg.author.id);
     let userPermission = guildMember.hasPermission("ADMINISTRATOR");
     if (userPermission) {
-        let botlog = client.channels.cache.find(channel => channel.name == "bot-log");
-        let channelev = client.channels.cache.find(channel => channel.name == "обьявления");
+        let botlog = client.channels.cache.find(channel => channel.name == "bot-log" && channel.guild.id == msg.guild.id);
+        let channelev = client.channels.cache.find(channel => channel.name == "обьявления" && channel.guild.id == msg.guild.id);
         //Удаляет N сообщения из чата где введена команда.
         if (msg.content.startsWith(prefix + 'clear')) {
             let args = msg.content.split(' ');
@@ -79,7 +79,7 @@ client.on('message', msg => {
         }
 
 
-    } else { msg.reply(`Недостаточно прав`) }
+    }
 });
 
 
@@ -132,6 +132,7 @@ function unmuted(msg, guild, botlog) {
             let mutedRole = guild.roles.cache.find(role => role.name == `mute`);
             if (mutedRole) {
                 findUser.roles.remove(mutedRole);
+                findUser.voice.setMute(false);
                 if (args[2] != undefined) {
                     botlog.send(`Мьют снят с пользователя: ${user}\r\nСнял: ${msg.author}\r\nПричина: ${args[2]}`);
                 } else { botlog.send(`Мьют снят с пользователя: ${user}\r\nСнял: ${msg.author}`) };
@@ -163,7 +164,7 @@ function userslist(msg, botlog) {
         let findUser = (`./database/users/${listing[i]}`);
         let cacheUser = fs.readFileSync(findUser).toString();
         let users = JSON.parse(cacheUser);
-        botlog.send(`get`+ ` ` + listing[i] + `\r\n Nickname: ${users.user}\r\n ID: ${users.id}\r\n ClickID: <@${users.id}>\r\n UserTag ${users.user_tag}\r\n .`);
+        botlog.send(`get` + ` ` + listing[i] + `\r\n Nickname: ${users.user}\r\n ID: ${users.id}\r\n ClickID: <@${users.id}>\r\n UserTag ${users.user_tag}\r\n .`);
     }
 };
 
@@ -192,6 +193,7 @@ function muted(msg, guild, botlog) {
             let mutedRole = guild.roles.cache.find(role => role.name == `mute`);
             if (mutedRole) {
                 findUser.roles.add(mutedRole);
+                findUser.voice.setMute(true);
                 if (args[2] != undefined) {
                     botlog.send(`Выдан мьют пользователю: ${user}\r\nМьют выдан пользователем: ${msg.author}\r\nПричина: ${args[2]}`);
                 } else { botlog.send(`Выдан мьют пользователю: ${user}\r\nМьют выдан пользователем: ${msg.author}`) };
