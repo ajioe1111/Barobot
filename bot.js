@@ -42,7 +42,7 @@ client.on('guildMemberAdd', member => {
 client.on('message', msg => {
     let guild = msg.guild;
     let guildMember = guild.members.cache.find(member => member.user.id == msg.author.id);
-    let userPermission = guildMember.hasPermission("ADMINISTRATOR");
+    let userPermission = guildMember.hasPermission("VIEW_AUDIT_LOG");
     if (userPermission) {
         let botlog = client.channels.cache.find(channel => channel.name == "bot-log" && channel.guild.id == msg.guild.id);
         let channelev = client.channels.cache.find(channel => channel.name == "обьявления" && channel.guild.id == msg.guild.id);
