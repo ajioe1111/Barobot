@@ -1,7 +1,8 @@
 FROM node:14.15.4-buster
 
-WORKDIR /barobot
+ENV TZ='Europe/Moscow'
 
+WORKDIR /barobot
 COPY . .
 
 RUN npm install
