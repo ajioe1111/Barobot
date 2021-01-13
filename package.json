@@ -1,15 +1,18 @@
 {
-  "name": "bot",
-  "version": "1.0.0",
-  "description": "Barotrauma bot for RP server's",
+  "name": "botv2",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "test",
   "main": "bot.js",
   "scripts": {
-    "test": "!test"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Fuuka#6189",
+  "author": "Fuuka",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.5.1",
-    "moment": "^2.29.1"
+    "discord.js": "^12.5.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.17.0"
   }
 }
