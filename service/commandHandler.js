@@ -17,6 +17,7 @@ import { deleteWord } from '../commands/deleteWord.js';
 import { guildInit } from '../commands/guildInit.js';
 import { setDefaultRole } from '../commands/setDefaultRole.js';
 import { urlChecker } from './urlChecker.js';
+import { say } from '../commands/say.js';
 
 
 
@@ -30,9 +31,26 @@ let prefix = config.prefix
 export function commandHandler(msg, botlog, botAvatar, channelInfo, client) {
     let guild = msg.guild;
     let guildMember = guild.members.cache.find(member => member.user.id == msg.author.id);
+
+    if (guildMember == undefined) {
+        console.log(`Хуйня какая та произошла.`);
+        return;
+    }
+
     let level1 = 'bot-level1';
     let level2 = 'bot-level2';
+    let isAdmin;
+    let isModer;
+
     if (guildMember.roles.cache.find(role => role.name == level2)) {
+        isAdmin = true;
+    }
+
+    if (guildMember.roles.cache.find(role => role.name == level1) || isAdmin) {
+        isModer = true;
+    }
+
+    if (isAdmin) {
         //Технический уровень.
         if (msg.content.startsWith(prefix + `userslist`)) {
             userslist(botlog);
@@ -58,10 +76,14 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client) {
             setDefaultRole(msg, client);
             return;
         }
+        else if (msg.content.startsWith(prefix + `say`)) {
+            say(msg, client);
+            return;
+        }
 
     }
     //Уровень Администратора.
-    if (guildMember.roles.cache.find(role => role.name == level1) || guildMember.roles.cache.find(role => role.name == level2)) {
+    if (isModer) {
         if (msg.content.startsWith(prefix + `clear`)) {
             clear(msg);
             return;
@@ -87,7 +109,6 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client) {
         botInfo(msg, botAvatar);
         return;
     }
-    blackWords(msg);
-    urlChecker(msg);
-
+    blackWords(msg, isAdmin);
+    urlChecker(msg, isAdmin);
 }

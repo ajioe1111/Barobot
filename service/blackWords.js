@@ -6,7 +6,10 @@ import * as Discord from 'discord.js';
  * 
  * @param {Discord.Message} msg 
  */
-export function blackWords (msg) {
+export function blackWords (msg, isAdmin) {
+    if (isAdmin) {
+        return;
+    }
     let cacheList = fs.readFileSync('./database/banned_word/wordList.json').toString();
     let listArray = JSON.parse(cacheList);
     let lowerMsg = msg.content.toLowerCase();

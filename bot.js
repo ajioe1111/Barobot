@@ -34,5 +34,11 @@ client.on('message', msg => {
     let botlog = client.channels.cache.find(channel => channel.name == "bot-log" && channel.guild.id == msg.guild.id);
     cmd.commandHandler(msg, botlog, botAvatar, channelInfo, client);
 });
+client.on('messageUpdate', (oldMsg, newMsg) => {
+    console.log(`${oldMsg.author} изменил сообщение. С ${oldMsg.content} на ${newMsg.content}.`);
+    let logChannel = client.channels.cache.find(channel => channel.name == "log" && channel.guild.id == oldMsg.guild.id);
+    logChannel.send(`=====\r\nИзменение сообщения!\r\nИзменил: ${oldMsg.author}.\r\nСтарое сообщение: ${oldMsg.content}\r\n.\r\n.\r\n Новое сообщение: ${newMsg.content}\r\n=====`);
+});
+
 
 client.login(config.token);

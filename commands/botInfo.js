@@ -6,7 +6,7 @@ import * as Discord from 'discord.js';
  * @param {Discord.Message} message 
  */
 export function botInfo(message, botAvatar) {
-    let time = new Date().toUTCString()
+    let time = new Date().toLocaleString();
     let serverembed = new Discord.MessageEmbed()
         .setDescription("Bot Information")
         .setColor("#15f153")
