@@ -28,12 +28,15 @@ let prefix = config.prefix
  * @param {Discord.Message} msg 
  * @param {Discord.Channel} botlog 
  */
-export function commandHandler(msg, botlog, botAvatar, channelInfo, client) {
+export function commandHandler(msg, botlog, botAvatar, channelInfo, client, isOwner, logChannel) {
+    if (msg.author.bot) {
+        return;
+    }
     let guild = msg.guild;
     let guildMember = guild.members.cache.find(member => member.user.id == msg.author.id);
 
     if (guildMember == undefined) {
-        console.log(`Хуйня какая та произошла.`);
+        console.log(`*ERROR* Пользователь не найден.`);
         return;
     }
 
@@ -50,65 +53,84 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client) {
         isModer = true;
     }
 
-    if (isAdmin) {
+    if (isAdmin || isOwner) {
         //Технический уровень.
         if (msg.content.startsWith(prefix + `userslist`)) {
             userslist(botlog);
+            console.log(`${msg.author} user command "userslist"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `get`)) {
             getUser(msg, botlog);
+            console.log(`${msg.author} user command "get"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `addword`)) {
             addWord(msg);
+            console.log(`${msg.author} user command "addword"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `deleteword`)) {
             deleteWord(msg);
+            console.log(`${msg.author} user command "deleteword"`);
             return;
         }
-        else if (msg.content.startsWith(prefix + `init`)) {
-            guildInit(msg, client);
+        else if (msg.content.startsWith(prefix + `init`) || msg.content == `&&guildremove`) {
+            console.log(`point`)
+            guildInit(msg, client, isAdmin, isOwner);
+            console.log(`${msg.author} user command "init"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `setdefaultrole`)) {
             setDefaultRole(msg, client);
+            console.log(`${msg.author} user command "setdefaultrole"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `say`)) {
             say(msg, client);
+            console.log(`${msg.author} user command "say"`);
+            return;
+        }
+        else if (msg.content.startsWith(prefix + `test`)) {
+            let msgArr = [`1`, `2`, `3`, `4`, `5`];
+            msg.reply(msgArr);
             return;
         }
 
     }
     //Уровень Администратора.
-    if (isModer) {
+    if (isModer || isOwner) {
         if (msg.content.startsWith(prefix + `clear`)) {
             clear(msg);
+            console.log(`${msg.author} user command "clear"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `event`)) {
             events(msg, channelInfo);
+            console.log(`${msg.author} user command "event"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `info`)) {
             info(msg, botlog);
+            console.log(`${msg.author} user command "info"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `mute`)) {
             muted(msg, guild, botlog);
+            console.log(`${msg.author} user command "mute"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `unmute`)) {
             unmuted(msg, guild, botlog);
+            console.log(`${msg.author} user command "unmute"`);
             return;
         }
     }
     if (msg.content.startsWith(prefix + `bot`)) {
         botInfo(msg, botAvatar);
+        console.log(`${msg.author} user command "bot"`);
         return;
     }
-    blackWords(msg, isAdmin);
-    urlChecker(msg, isAdmin);
+    blackWords(msg, isAdmin, isOwner, logChannel);
+    urlChecker(msg, isAdmin, isModer, isOwner, logChannel);
 }
