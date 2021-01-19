@@ -14,13 +14,13 @@ export function blackWords(msg, isAdmin, isOwner, logChannel) {
         let cacheOption = fs.readFileSync(path).toString();
         let options = JSON.parse(cacheOption);
 
-        if ((msg.content === `$$checkwords true` && isAdmin) || (msg.content === `$$checkwords true` && isOwner)) {
+        if (msg.content === `$$checkwords true` && isAdmin || msg.content === `$$checkwords true` && isOwner) {
             options.wordCheck = true;
             msg.reply(`Черный список слов включен.`);
             fs.writeFileSync(path, JSON.stringify(options));
             return;
         }
-        else if ((msg.content === `$$checkwords false` && isAdmin) || (msg.content === `$$checkwords false` && isOwner)) {
+        else if (msg.content === `$$checkwords false` && isAdmin || msg.content === `$$checkwords false` && isOwner) {
             options.wordCheck = false;
             msg.reply(`Черный список слов выключен.`);
             fs.writeFileSync(path, JSON.stringify(options));

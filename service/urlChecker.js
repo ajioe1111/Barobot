@@ -14,12 +14,12 @@ export function urlChecker(msg, isAdmin, isModer, isOwner, logChannel) {
         let options = JSON.parse(cacheOption);
         //Конец блока
 
-        if ((msg.content === `$$checkurl true` && isAdmin) || (msg.content === `$$checkurl true` && isOwner)) {
+        if (msg.content === `$$checkurl true` && isAdmin || msg.content === `$$checkurl true` && isOwner) {
             options.urlCheck = true;
             msg.reply(`Запрет ссылок включен.`);
             fs.writeFileSync(`./configs/options.json`, JSON.stringify(options));
             return;
-        } else if ((msg.content === `$$checkurl false` && isAdmin) || (msg.content === `$$checkurl false` && isOwner)) {
+        } else if (msg.content === `$$checkurl false` && isAdmin || msg.content === `$$checkurl false` && isOwner) {
             options.urlCheck = false;
             msg.reply(`Запрет ссылок выключен.`);
             fs.writeFileSync(`./configs/options.json`, JSON.stringify(options));
