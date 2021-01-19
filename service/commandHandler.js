@@ -75,7 +75,7 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, isOw
             console.log(`${msg.author} user command "deleteword"`);
             return;
         }
-        else if (msg.content.startsWith(prefix + `init`) || msg.content == `&&guildremove`) {
+        else if (msg.content.startsWith(prefix + `init`) || msg.content == `$$guildremove`) {
             console.log(`point`)
             guildInit(msg, client, isAdmin, isOwner);
             console.log(`${msg.author} user command "init"`);
