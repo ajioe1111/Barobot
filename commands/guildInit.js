@@ -8,7 +8,7 @@ import * as Discord from 'discord.js';
  */
 export function guildInit(msg, client, isAdmin, isOwner) {
     let guildId = client.guilds.cache.find(guildId => guildId.id == msg.guild.id)
-    if ((msg.content == `&&guildremove` && isAdmin) || (msg.content == `&&guildremove` && isOwner)) {
+    if ((msg.content == `$$guildremove` && isAdmin) || (msg.content == `$$guildremove` && isOwner)) {
         fs.unlinkSync(`./database/guild/${guildId.id}.json`);
         msg.reply(`Сервер удален из базы`);
         return;
