@@ -12,7 +12,6 @@ export function say(msg, client) {
     let channel = args[1];
     let castomMsg = args[2];
     let sliceCastomMsg = args[2].slice(1, castomMsg.length - 1);
-    console.log(channel);
     if (!args[1]) {
         msg.reply(`Нужно указать канал!`);
         console.log(`${msg.author} использовал команду say не указав канал.`)
