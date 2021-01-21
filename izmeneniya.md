@@ -22,7 +22,7 @@
 
 ### Add
 
-* Добавлена команда say.
+* Добавлена команда [say](https://app.gitbook.com/@ajioe1111/s/baro-bot-info/~/drafts/-MRaGdQnqxi6L7MjtDcs/bot-commands-administrator/tekhnicheskii-uroven-dostupa#say-channel-tekst).
 
 ### Fix
 
@@ -33,7 +33,7 @@
 
 ### Add
 
-* Добавлены персональные настройки сервера.
+* Добавлены [персональные ](https://app.gitbook.com/@ajioe1111/s/baro-bot-info/bot-commands-administrator/sistema-inicializacii-servera-dlya-detalnoi-nastroiki-bota.)настройки сервера.
 
 
 
