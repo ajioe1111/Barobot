@@ -18,7 +18,22 @@
 
 * Небольшие доработки старых команд.
 
-###  
+##  2.1.0 - 14.01.2021
+
+### Add
+
+* Добавлена команда [say](https://app.gitbook.com/@ajioe1111/s/baro-bot-info/~/drafts/-MRaGdQnqxi6L7MjtDcs/bot-commands-administrator/tekhnicheskii-uroven-dostupa#say-channel-tekst).
+
+### Fix
+
+* Добавлена проверка на роль в чекере слов и ссылок.
+* Исправлен баг с перезапуском бота.
+
+## 2.1.1 - 20.01.2021
+
+### Add
+
+* Добавлены [персональные ](https://app.gitbook.com/@ajioe1111/s/baro-bot-info/bot-commands-administrator/sistema-inicializacii-servera-dlya-detalnoi-nastroiki-bota.)настройки сервера.
 
 
 
