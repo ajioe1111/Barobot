@@ -26,7 +26,7 @@ export function urlChecker(msg, isAdmin, isModer, isOwner, logChannel) {
             return;
         }
 
-        if (isAdmin || isModer || msg.author.bot || isOwner) {
+        if (isAdmin == true || isModer == true|| msg.author.bot || isOwner == true) {
             return;
         }
         if (msg.content.startsWith(`https://discord.com/channels/@me`)) {
@@ -34,12 +34,12 @@ export function urlChecker(msg, isAdmin, isModer, isOwner, logChannel) {
         }
 
         let lowerContent = msg.content.toLowerCase();
-        let url = ['http', 'https', '.www', '://', '.ru', '.com', '.net', '.info'];
+        let url = ['http', 'https', '.www', '://', '.ru', '.com', '.net', '.info', 'ht_ps:', '//www.'];
         for (let i = 0; i <= url.length; i++) {
             if (lowerContent.includes(url[i])) {
                 msg.delete({ timeout: 0 });
                 logChannel.send(`${msg.author} кинул(а) ссылку!`);
-                msg.reply(`Ссылки запрещены!`); 
+                msg.reply(`Ссылки запрещены!`);
                 return;
             }
         }

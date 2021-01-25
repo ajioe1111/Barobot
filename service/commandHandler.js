@@ -18,6 +18,7 @@ import { guildInit } from '../commands/guildInit.js';
 import { setDefaultRole } from '../commands/setDefaultRole.js';
 import { urlChecker } from './urlChecker.js';
 import { say } from '../commands/say.js';
+import { addNewP } from '../commands/addNewP.js';
 
 
 
@@ -42,8 +43,8 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, isOw
 
     let level1 = 'bot-level1';
     let level2 = 'bot-level2';
-    let isAdmin;
-    let isModer;
+    let isAdmin = false;
+    let isModer = false;
 
     if (guildMember.roles.cache.find(role => role.name == level2)) {
         isAdmin = true;
@@ -92,8 +93,10 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, isOw
             return;
         }
         else if (msg.content.startsWith(prefix + `test`)) {
-            let msgArr = [`1`, `2`, `3`, `4`, `5`];
-            msg.reply(msgArr);
+            return;
+        }
+        else if (msg.content.startsWith(prefix + `addnewP`)) {
+            addNewP(msg);
             return;
         }
 

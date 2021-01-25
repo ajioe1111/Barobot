@@ -21,7 +21,7 @@ export function userDataSave(member, botlog) {
         let createdAt = member.user.createdAt; //
         let userTag = member.user.tag; //
         let userAvatar = member.user.displayAvatarURL(); //
-        let newUser = { user: username, id: userID, created_at: createdAt, avatarURL: userAvatar, user_tag: userTag };
+        let newUser = { user: username, id: userID, created_at: createdAt, avatarURL: userAvatar, user_tag: userTag, omcCorpus: false, omcCorpusGranted: false };
         fs.writeFileSync(`./database/users/${userID}.json`, JSON.stringify(newUser));
         botlog.send(`Зашел новый Юзер! <@${member.id}>, на ${member.guild.name}`)
     }
