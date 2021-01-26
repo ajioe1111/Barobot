@@ -22,7 +22,7 @@ export function roleCheck(member) {
                 member.send(`Поздравляю с повышением на ${member.guild.name}! Получив звание "Старший матрос" вы должны выбрать один из корпусов ОМФ.`)
                 const embed = new Discord.MessageEmbed()
                     .setTitle(`Выбор корпуса!`)
-                    .setDescription(`Флот ОМФ делится на 5 корпусов.`)
+                    .setDescription(`Флот ОМC делится на 5 корпусов.`)
                     .addFields(
                         { name: '1 корпус ОМФ.', value: 'Занимается поддержкой и обеспечением плацдарма на границе ВЭК и перебросом судов через границу. Специализируются на быстрых диверсионных операциях и заметании следов присутствия ОМС.' },
                         { name: '2 корпус ОМФ.', value: 'Занимается обороной и обеспечением безопасности на территории вод ОМС. Специализируются на уничтожении фауны Европы и противодействии наиболее опасным тварям.' },
@@ -30,7 +30,7 @@ export function roleCheck(member) {
                         { name: '4 корпус ОМФ.', value: 'Занимается прямым противодействием ВЭК, в их задачи входит нанесение как можно более серьёзного ущерба ключевым объектам ВЭК. Боевые столкновения между силами ВЭК и ОМС чаще всего происходят при непосредственном участии 4 корпуса, так же многие мятежники называют 4 корпус - корпусом смертников, туда попадают самые отчаянные. Специализируются на активных боевых действиях и суицидальных атаках с нанесением максимального ущерба.' },
                         { name: '5 корпус ОМФ.', value: 'Занимается вербовкой новых членов в ряды ОМС, поиском дезертиров, а так же сбором информации, по сути 5 корпус является обширной агентурной сетью и именно их стараниями, мятежные и дезертировавшие капитаны находят дорогу к ОМС. Специализируется на сборе информации, вербовке, проведении тайных операций и активном шпионаже.' },
                     )
-                    .addField(`Выбор важен.`, `Напишите в чате цифру которая равняется номеру корпуса в который вы хотите вступить!`)
+                    .addField(`Выбор важен.`, `Напишите в чате цифру соответствующую выбранному вами корпусу, для вступления в ряды ОМФ! Без выбора корпуса невозможно дальнейшие получение ролей.`)
                     .setColor(0xE02AC4)
                 member.send(embed);
                 users.omcCorpusGranted = true;
@@ -52,28 +52,36 @@ export function omcMSGChecker(msg, client) {
         let cacheUser = fs.readFileSync(path).toString();
         let users = JSON.parse(cacheUser);
         if (users.omcCorpusGranted == true) {
+            let guild = `799302316984762438`;
+            let fGuild = client.guilds.cache.find(guildFind => guildFind.id == guild);
+            let log = fGuild.channels.cache.find(channel => channel.name == "log");
             let num = msg.content;
             let repMsg = `Отличный выбор! так держать!`;
             switch (num) {
                 case `1`:
                     addRoleOmc(userId, `800352957714661386`, client)
                     msg.reply(repMsg)
+                    log.send(`${msg.author} Выбрал корпус '1'`)
                     break;
                 case `2`:
                     addRoleOmc(userId, `800353145640189962`, client)
                     msg.reply(repMsg)
+                    log.send(`${msg.author} Выбрал корпус '2'`)
                     break;
                 case `3`:
                     addRoleOmc(userId, `800353365460647956`, client)
                     msg.reply(repMsg)
+                    log.send(`${msg.author} Выбрал корпус '3'`)
                     break;
                 case `4`:
                     addRoleOmc(userId, `800353440655081473`, client)
                     msg.reply(repMsg)
+                    log.send(`${msg.author} Выбрал корпус '4'`)
                     break;
                 case `5`:
                     addRoleOmc(userId, `800353512239398952`, client)
                     msg.reply(repMsg)
+                    log.send(`${msg.author} Выбрал корпус '5'`)
                     break;
                 default:
                     msg.reply(`Вам нужно указать число от 1 до 5!`)
