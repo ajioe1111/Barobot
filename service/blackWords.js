@@ -26,7 +26,7 @@ export function blackWords(msg, isAdmin, isOwner, logChannel) {
             fs.writeFileSync(path, JSON.stringify(options));
             return;
         }
-        if (isAdmin || msg.author.bot || isOwner) {
+        if (isAdmin == true || msg.author.bot || isOwner == true) {
             return;
         }
         if (options.wordCheck) {

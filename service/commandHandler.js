@@ -93,6 +93,9 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, isOw
             return;
         }
         else if (msg.content.startsWith(prefix + `test`)) {
+            let targetDate = new Date();
+            msg.reply(`${targetDate}`);
+            console.log(targetDate);
             return;
         }
         else if (msg.content.startsWith(prefix + `addnewP`)) {
