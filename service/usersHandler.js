@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as Discord from 'discord.js';
 
 
 export function userDataSave(member, botlog) {
@@ -13,7 +14,19 @@ export function userDataSave(member, botlog) {
     }
     let cachePath = `./database/users/${member.id}.json`
     if (fs.existsSync(cachePath) == true) {
-        botlog.send(`Зашел ${member.displayName} и он(а) уже есть в базе, его ID ${member.id} (<@${member.id}>, на ${member.guild.name})`)
+        const oldMember = new Discord.MessageEmbed()
+        .setTitle(`Зашел старый пользователь`)
+        .setDescription(`пользователь уже есть в базе`)
+        .addFields(
+            {name: `Пользователь`, value: `${member.displayName}`},
+            {name: `ID`, value: `${member.id}`, inline: true},
+            {name: `\u200B`, value: `<@${member.id}>`, inline: true},
+            {name: `Зашел(шла) на`, value: `${member.guild.name}`},
+        )
+        .setThumbnail(member.user.displayAvatarURL())
+        .setTimestamp()
+
+        botlog.send(oldMember)
     }
     else {
         let username = member.displayName;
@@ -21,13 +34,34 @@ export function userDataSave(member, botlog) {
         let createdAt = member.user.createdAt; //
         let userTag = member.user.tag; //
         let userAvatar = member.user.displayAvatarURL(); //
-        let newUser = { user: username, id: userID, created_at: createdAt, avatarURL: userAvatar, user_tag: userTag, omcCorpus: false, omcCorpusGranted: false };
+        let newUser = { user: username, id: userID, created_at: createdAt, avatarURL: userAvatar, user_tag: userTag, omcCorpus: false, omcCorpusGranted: false, joinedAt: member.joinedAt, warnCount: 0 };
         fs.writeFileSync(`./database/users/${userID}.json`, JSON.stringify(newUser));
-        botlog.send(`Зашел новый Юзер! <@${member.id}>, на ${member.guild.name}`)
+        const newMember = new Discord.MessageEmbed()
+        .setTitle(`Зашел новый пользователь`)
+        .setDescription(`пользователя нету в базе`)
+        .addFields(
+            {name: `Пользователь`, value: `${member.displayName}`},
+            {name: `ID`, value: `${member.id}`, inline: true},
+            {name: `\u200B`, value: `<@${member.id}>`, inline: true},
+            {name: `Зашел(шла) на`, value: `${member.guild.name}`},
+        )
+        .setThumbnail(member.user.displayAvatarURL())
+        .setTimestamp()
+        botlog.send(newMember)
     }
 }
 
 export function leaveUser(member, botlog) {
     console.log(`Member left ${member}`);
-    botlog.send(`${member} покинул(а) сервер. Его ID: ${member.id}, из ${member.guild.name}`);
+    const memberLeft = new Discord.MessageEmbed()
+    .setTitle(`Пользователь покинул сервер`)
+    .addFields(
+        {name: `Пользователь`, value: `${member.displayName}`},
+        {name: `ID`, value: `${member.id}`, inline: true},
+        {name: `\u200B`, value: `<@${member.id}>`, inline: true},
+        {name: `Вышел из`, value: `${member.guild.name}`},
+    )
+    .setThumbnail(member.user.displayAvatarURL())
+    .setTimestamp()
+    botlog.send(memberLeft);
 }

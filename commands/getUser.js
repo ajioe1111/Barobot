@@ -1,5 +1,6 @@
 
 import * as fs from 'fs';
+import * as Discord from 'discord.js';
 
 export function getUser(msg, botlog) {
     let args = msg.content.split(' ');
@@ -11,7 +12,40 @@ export function getUser(msg, botlog) {
             if (findUser == `./database/users/${listing[i]}`) {
                 let cacheUser = fs.readFileSync(findUser).toString();
                 let users = JSON.parse(cacheUser);
-                botlog.send(`Информация о пользователе ${users.user}\r\n ID пользователя: ${users.id}\r\n Click ID: <@${users.id}>\r\n Зарегистрирован: ${users.created_at}\r\n Аватар пользователя: ${users.avatarURL}\r\n Тэг пользователя: ${users.user_tag}`);
+                const getUserEmbedded = new Discord.MessageEmbed()
+                .setTitle(`Информация о юзере`)
+                .setDescription(`Информация из базы данных.`)
+                .setColor(0x0099ff)
+                .setThumbnail(`${users.avatarURL}`)
+                .addFields(
+                    {
+                        name: `Имя пользователя`,
+                        value: `${users.user}`,
+                    },
+                    {
+                        name: `ID пользователя`,
+                        value: `${users.id}`,
+                        inline: true,
+                    },
+                    {
+                        name: `Click ID`,
+                        value: `<@${users.id}>`,
+                        inline: true,
+                    },
+                    {
+                        name: `Зарегистрирован`,
+                        value: `${users.created_at}`,
+                    },
+                    {
+                        name: `Тэг пользователя`,
+                        value: `${users.user_tag}`,
+                    },
+                    {
+                        name: `Зашел на сервер`,
+                        value: `${users.joinedAt}`
+                    },
+                )
+                botlog.send(getUserEmbedded);
                 find = true;
             }
         }

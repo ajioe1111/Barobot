@@ -15,6 +15,9 @@ export function addNewP(msg) {
             let users = JSON.parse(cacheUser);
             users.omcCorpus = false;
             users.omcCorpusGranted = false;
+            let date = new Date();
+            users.warnCount = 0;
+            users.joinedAt = date.toLocaleString();
             fs.writeFileSync(path, JSON.stringify(users));
         }
         msg.reply(`Done!`);

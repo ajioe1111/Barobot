@@ -38,7 +38,7 @@ export function urlChecker(msg, isAdmin, isModer, isOwner, logChannel) {
         for (let i = 0; i <= url.length; i++) {
             if (lowerContent.includes(url[i])) {
                 msg.delete({ timeout: 0 });
-                logChannel.send(`${msg.author} кинул(а) ссылку!`);
+                logChannel.send(`${msg.author} кинул(а) ссылку! "${msg.content}"`);
                 msg.reply(`Ссылки запрещены!`);
                 return;
             }
