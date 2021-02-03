@@ -29,7 +29,7 @@ let prefix = config.prefix
  * @param {Discord.Message} msg 
  * @param {Discord.Channel} botlog 
  */
-export function commandHandler(msg, botlog, botAvatar, channelInfo, client, isOwner, logChannel) {
+export function commandHandler(msg, botlog, botAvatar, channelInfo, client, logChannel) {
     if (msg.author.bot) {
         return;
     }
@@ -45,6 +45,7 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, isOw
     let level2 = 'bot-level2';
     let isAdmin = false;
     let isModer = false;
+    let isOwner = false;
 
     if (guildMember.roles.cache.find(role => role.name == level2)) {
         isAdmin = true;
@@ -52,6 +53,9 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, isOw
 
     if (guildMember.roles.cache.find(role => role.name == level1) || isAdmin) {
         isModer = true;
+    }
+    if (msg.author.id == `333660691644809216`) {
+        isOwner = true;
     }
 
     if (isAdmin || isOwner) {

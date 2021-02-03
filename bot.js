@@ -11,7 +11,7 @@ import { greetingNewMemberHub } from './personal_options/hub.js';
 import { omcMSGChecker, roleCheck } from './personal_options/omc.js';
 const client = new Discord.Client();
 let botAvatar;
-let botOwner = `333660691644809216`; // Owner ID. 333660691644809216
+//let botOwner = `333660691644809216`; // Owner ID. 333660691644809216
 //hub id = 789579914869080074
 //omc id = 799302316984762438
 //test id = 787699629944864839
@@ -50,8 +50,8 @@ client.on('message', msg => {
     let channelInfo = client.channels.cache.find(channel => channel.name == "обьявления" && channel.guild.id == msg.guild.id);
     let logChannel = client.channels.cache.find(channel => channel.name == "log" && channel.guild.id == msg.guild.id);
     let botlog = client.channels.cache.find(channel => channel.name == "bot-log" && channel.guild.id == msg.guild.id);
-    let isOwner = client.users.cache.find(owner => owner.id == botOwner);
-    cmd.commandHandler(msg, botlog, botAvatar, channelInfo, client, isOwner, logChannel);
+   // let isOwner = client.users.cache.find(owner => owner.id == botOwner);
+    cmd.commandHandler(msg, botlog, botAvatar, channelInfo, client, logChannel);
     }
 });
 
