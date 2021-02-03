@@ -13,8 +13,8 @@ import * as Discord from 'discord.js';
     let eventNameArgs = args[2];
     let eventName = eventNameArgs.slice(1, eventNameArgs.length - 1);
 
-    setTimeout(() => channelInfo.send(`@everyone Напоминаю про игру! в ${time} по МСК!`), getNotificationTimeout(time, 30));
-    setTimeout(() => channelInfo.send(`@everyone Напоминаю про игру! в ${time} по МСК!`), getNotificationTimeout(time, 5));
+    setTimeout(() => channelInfo.send(`@everyone Сбор начинается через пол часа! в ${time} по МСК!`), getNotificationTimeout(time, 30));
+    setTimeout(() => channelInfo.send(`@everyone Сбор через пять минут! в ${time} по МСК!`), getNotificationTimeout(time, 5));
 
 
     const embed = new Discord.MessageEmbed()

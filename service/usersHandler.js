@@ -20,7 +20,7 @@ export function userDataSave(member, botlog) {
         .addFields(
             {name: `Пользователь`, value: `${member.displayName}`},
             {name: `ID`, value: `${member.id}`, inline: true},
-            {name: `\u200B`, value: `<@${member.id}>`, inline: true},
+            {name: `Click ID`, value: `<@${member.id}>`, inline: true},
             {name: `Зашел(шла) на`, value: `${member.guild.name}`},
         )
         .setThumbnail(member.user.displayAvatarURL())
@@ -42,7 +42,7 @@ export function userDataSave(member, botlog) {
         .addFields(
             {name: `Пользователь`, value: `${member.displayName}`},
             {name: `ID`, value: `${member.id}`, inline: true},
-            {name: `\u200B`, value: `<@${member.id}>`, inline: true},
+            {name: `Click ID`, value: `<@${member.id}>`, inline: true},
             {name: `Зашел(шла) на`, value: `${member.guild.name}`},
         )
         .setThumbnail(member.user.displayAvatarURL())
@@ -58,7 +58,7 @@ export function leaveUser(member, botlog) {
     .addFields(
         {name: `Пользователь`, value: `${member.displayName}`},
         {name: `ID`, value: `${member.id}`, inline: true},
-        {name: `\u200B`, value: `<@${member.id}>`, inline: true},
+        {name: `Click ID`, value: `<@${member.id}>`, inline: true},
         {name: `Вышел из`, value: `${member.guild.name}`},
     )
     .setThumbnail(member.user.displayAvatarURL())

@@ -25,7 +25,9 @@ export function urlChecker(msg, isAdmin, isModer, isOwner, logChannel) {
             fs.writeFileSync(`./database/guild/${guildID}.json`, JSON.stringify(options));
             return;
         }
-
+        if (options.urlCheck == false) {
+            return;
+        }
         if (isAdmin == true || isModer == true|| msg.author.bot || isOwner == true) {
             return;
         }
