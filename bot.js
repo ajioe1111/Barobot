@@ -20,6 +20,10 @@ client.on('ready', () => {
     client.on('error', console.error);
     console.log(`Logged in as ${client.user.tag}!`);
     botAvatar = client.user.displayAvatarURL();
+   let guildLog = client.guilds.cache.find(guild => guild.id == `789579914869080074`);
+   let log = guildLog.channels.cache.find(channel => channel.id == `799306126159773726`);
+   log.send(`<@333660691644809216> я запустился`);
+
 });
 
 client.on('guildMemberRemove', member => {
@@ -47,11 +51,11 @@ client.on('message', msg => {
         return;
     }
     if (!msg.author.bot) {
-    let channelInfo = client.channels.cache.find(channel => channel.name == "обьявления" && channel.guild.id == msg.guild.id);
-    let logChannel = client.channels.cache.find(channel => channel.name == "log" && channel.guild.id == msg.guild.id);
-    let botlog = client.channels.cache.find(channel => channel.name == "bot-log" && channel.guild.id == msg.guild.id);
-   // let isOwner = client.users.cache.find(owner => owner.id == botOwner);
-    cmd.commandHandler(msg, botlog, botAvatar, channelInfo, client, logChannel);
+        let channelInfo = client.channels.cache.find(channel => channel.name == "обьявления" && channel.guild.id == msg.guild.id);
+        let logChannel = client.channels.cache.find(channel => channel.name == "log" && channel.guild.id == msg.guild.id);
+        let botlog = client.channels.cache.find(channel => channel.name == "bot-log" && channel.guild.id == msg.guild.id);
+        // let isOwner = client.users.cache.find(owner => owner.id == botOwner);
+        cmd.commandHandler(msg, botlog, botAvatar, channelInfo, client, logChannel);
     }
 });
 

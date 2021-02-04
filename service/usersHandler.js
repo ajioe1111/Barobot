@@ -18,10 +18,10 @@ export function userDataSave(member, botlog) {
         .setTitle(`Зашел старый пользователь`)
         .setDescription(`пользователь уже есть в базе`)
         .addFields(
-            {name: `Пользователь`, value: `${member.displayName}`},
-            {name: `ID`, value: `${member.id}`, inline: true},
-            {name: `Click ID`, value: `<@${member.id}>`, inline: true},
-            {name: `Зашел(шла) на`, value: `${member.guild.name}`},
+            {name: `Пользователь`, value: `${member.displayName}\u200b`},
+            {name: `ID`, value: `${member.id}\u200b`, inline: true},
+            {name: `Click ID`, value: `<@${member.id}>\u200b`, inline: true},
+            {name: `Зашел(шла) на`, value: `${member.guild.name}\u200b`},
         )
         .setThumbnail(member.user.displayAvatarURL())
         .setTimestamp()
@@ -40,10 +40,10 @@ export function userDataSave(member, botlog) {
         .setTitle(`Зашел новый пользователь`)
         .setDescription(`пользователя нету в базе`)
         .addFields(
-            {name: `Пользователь`, value: `${member.displayName}`},
-            {name: `ID`, value: `${member.id}`, inline: true},
-            {name: `Click ID`, value: `<@${member.id}>`, inline: true},
-            {name: `Зашел(шла) на`, value: `${member.guild.name}`},
+            {name: `Пользователь`, value: `${member.displayName}\u200b`},
+            {name: `ID`, value: `${member.id}\u200b`, inline: true},
+            {name: `Click ID`, value: `<@${member.id}>\u200b`, inline: true},
+            {name: `Зашел(шла) на`, value: `${member.guild.name}\u200b`},
         )
         .setThumbnail(member.user.displayAvatarURL())
         .setTimestamp()
@@ -54,11 +54,11 @@ export function userDataSave(member, botlog) {
 export function leaveUser(member, botlog) {
     console.log(`Member left ${member}`);
     const memberLeft = new Discord.MessageEmbed()
-    .setTitle(`Пользователь покинул сервер`)
-    .addField(`Пользватель`, `${member.displayName}`)
-    .addField(`ID`, `${member.id}`, true)
-    .addField(`Click ID`, `<@${member.id}>`, true)
-    .addField(`Вышел из`, `${member.guild.name}`)
+    .setTitle(`Пользователь покинул сервер \u200b`)
+    .addField(`Пользватель`, `${member.displayName} \u200b`)
+    .addField(`ID`, `${member.id} \u200b`, true)
+    .addField(`Click ID`, `<@${member.id}> \u200b`, true)
+    .addField(`Вышел из`, `${member.guild.name} \u200b`)
     .setThumbnail(member.user.displayAvatarURL())
     .setTimestamp()
     botlog.send(memberLeft);
