@@ -6,7 +6,7 @@ import * as Discord from 'discord.js';
  * @param {Discord.Message} newMsg 
  */
 export function msgLog(oldMsg, newMsg, logChannel) {
-
+    console.log(`${newMsg.author} edit msg!`)
     const updateMessage = new Discord.MessageEmbed()
         .setTitle("**Изменено сообщение!**")
         .setColor("#F8E71C")

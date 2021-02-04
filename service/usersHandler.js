@@ -14,14 +14,15 @@ export function userDataSave(member, botlog) {
     }
     let cachePath = `./database/users/${member.id}.json`
     if (fs.existsSync(cachePath) == true) {
+        console.log(`${member} old member join!`)
         const oldMember = new Discord.MessageEmbed()
         .setTitle(`Зашел старый пользователь`)
         .setDescription(`пользователь уже есть в базе`)
         .addFields(
-            {name: `Пользователь`, value: `${member.displayName}\u200b`},
-            {name: `ID`, value: `${member.id}\u200b`, inline: true},
-            {name: `Click ID`, value: `<@${member.id}>\u200b`, inline: true},
-            {name: `Зашел(шла) на`, value: `${member.guild.name}\u200b`},
+            {name: `Пользователь`, value: `${member.displayName}`},
+            {name: `ID`, value: `${member.id}`, inline: true},
+            {name: `Click ID`, value: `<@${member.id}>`, inline: true},
+            {name: `Зашел(шла) на`, value: `${member.guild.name}`},
         )
         .setThumbnail(member.user.displayAvatarURL())
         .setTimestamp()
@@ -36,14 +37,15 @@ export function userDataSave(member, botlog) {
         let userAvatar = member.user.displayAvatarURL(); //
         let newUser = { user: username, id: userID, created_at: createdAt, avatarURL: userAvatar, user_tag: userTag, omcCorpus: false, omcCorpusGranted: false, joinedAt: member.joinedAt, warnCount: 0 };
         fs.writeFileSync(`./database/users/${userID}.json`, JSON.stringify(newUser));
+        console.log(`${member} new member join!`)
         const newMember = new Discord.MessageEmbed()
         .setTitle(`Зашел новый пользователь`)
         .setDescription(`пользователя нету в базе`)
         .addFields(
-            {name: `Пользователь`, value: `${member.displayName}\u200b`},
-            {name: `ID`, value: `${member.id}\u200b`, inline: true},
-            {name: `Click ID`, value: `<@${member.id}>\u200b`, inline: true},
-            {name: `Зашел(шла) на`, value: `${member.guild.name}\u200b`},
+            {name: `Пользователь`, value: `${member.displayName}`},
+            {name: `ID`, value: `${member.id}`, inline: true},
+            {name: `Click ID`, value: `<@${member.id}>`, inline: true},
+            {name: `Зашел(шла) на`, value: `${member.guild.name}`},
         )
         .setThumbnail(member.user.displayAvatarURL())
         .setTimestamp()
@@ -54,11 +56,11 @@ export function userDataSave(member, botlog) {
 export function leaveUser(member, botlog) {
     console.log(`Member left ${member}`);
     const memberLeft = new Discord.MessageEmbed()
-    .setTitle(`Пользователь покинул сервер \u200b`)
-    .addField(`Пользватель`, `${member.displayName} \u200b`)
-    .addField(`ID`, `${member.id} \u200b`, true)
-    .addField(`Click ID`, `<@${member.id}> \u200b`, true)
-    .addField(`Вышел из`, `${member.guild.name} \u200b`)
+    .setTitle(`Пользователь покинул сервер`)
+    .addField(`Пользватель`, `${member.displayName}`)
+    .addField(`ID`, `${member.id}`, true)
+    .addField(`Click ID`, `<@${member.id}>`, true)
+    .addField(`Вышел из`, `${member.guild.name}`)
     .setThumbnail(member.user.displayAvatarURL())
     .setTimestamp()
     botlog.send(memberLeft);

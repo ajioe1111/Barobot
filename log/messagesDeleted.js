@@ -1,6 +1,7 @@
 import * as Discord from 'discord.js';
 
 export function dellMsg(messageDelete, logChannel) {
+    console.log(`${messageDelete.author} delete msg!`)
     const DeleteEmbed = new Discord.MessageEmbed()
     .setTitle("**Удалено сообщение!**")
     .setColor("#fc3c3c")

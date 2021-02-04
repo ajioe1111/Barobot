@@ -6,6 +6,7 @@ import * as Discord from 'discord.js';
 
 export function memberUpdate(oldMember, newMember, logChannel) {
     if (oldMember.displayName != newMember.displayName) {
+        console.log(`${oldMember} edit nickname!`)
         const userUpdateEmbed = new Discord.MessageEmbed()
             .setTitle("**Изменения никнейма!**")
             .setColor("#50E3C2")
