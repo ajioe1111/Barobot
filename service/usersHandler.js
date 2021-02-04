@@ -55,12 +55,10 @@ export function leaveUser(member, botlog) {
     console.log(`Member left ${member}`);
     const memberLeft = new Discord.MessageEmbed()
     .setTitle(`Пользователь покинул сервер`)
-    .addFields(
-        {name: `Пользователь`, value: `${member.displayName}`},
-        {name: `ID`, value: `${member.id}`, inline: true},
-        {name: `Click ID`, value: `<@${member.id}>`, inline: true},
-        {name: `Вышел из`, value: `${member.guild.name}`},
-    )
+    .addField(`Пользватель`, `${member.displayName}`)
+    .addField(`ID`, `${member.id}`, true)
+    .addField(`Click ID`, `<@${member.id}>`, true)
+    .addField(`Вышел из`, `${member.guild.name}`)
     .setThumbnail(member.user.displayAvatarURL())
     .setTimestamp()
     botlog.send(memberLeft);
