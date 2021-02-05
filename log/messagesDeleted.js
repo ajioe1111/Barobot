@@ -1,7 +1,7 @@
 import * as Discord from 'discord.js';
 
 export function dellMsg(messageDelete, logChannel) {
-    if (messageDelete !== undefined) {
+    if (messageDelete != undefined && messageDelete.content != undefined && messageDelete.author.id != undefined && messageDelete.channel != undefined && messageDelete.id != undefined) {
         console.log(`${messageDelete.author} delete msg!`)
         const DeleteEmbed = new Discord.MessageEmbed()
             .setTitle("**Удалено сообщение!**")
@@ -12,5 +12,7 @@ export function dellMsg(messageDelete, logChannel) {
             .setFooter(`ID Сообщения: ${messageDelete.id} | ID Автора: ${messageDelete.author.id}`);
 
         logChannel.send(DeleteEmbed);
+    } else { 
+        console.log(`Error MessagesDeleted.js // ошибка, не найден один из параметров`);
     }
 }
