@@ -38,7 +38,7 @@ export function blackWords(msg, isAdmin, isOwner, logChannel) {
             let lowerMsg = msg.content.toLowerCase();
             for (let i = 0; i <= listArray.length; i++) {
                 if (lowerMsg.includes(listArray[i])) {
-                    logChannel.send(`${msg.author} написал запрещенное слово! "${msg.content}"`)
+                    logChannel.send(`${msg.author} написал запрещенное слово!`)
                     msg.reply('Запрещенное слово!');
                     msg.delete({ timeout: 0 });
                 }
