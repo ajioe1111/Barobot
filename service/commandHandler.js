@@ -19,6 +19,7 @@ import { setDefaultRole } from '../commands/setDefaultRole.js';
 import { urlChecker } from './urlChecker.js';
 import { say } from '../commands/say.js';
 import { addNewP } from '../commands/addNewP.js';
+import { testArgs } from '../testArgs/testArgs.js';
 
 
 
@@ -97,10 +98,7 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, logC
             return;
         }
         else if (msg.content.startsWith(prefix + `test`)) {
-            let targetDate = new Date();
-            msg.reply(`${targetDate}`);
-            console.log(targetDate);
-            return;
+            testArgs(msg);
         }
         else if (msg.content.startsWith(prefix + `addnewP`)) {
             addNewP(msg);

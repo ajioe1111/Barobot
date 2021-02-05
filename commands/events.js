@@ -12,6 +12,12 @@ export function events(msg, channelInfo) {
     let time = timeArgs.slice(1, timeArgs.length - 1);
     let eventNameArgs = args[2];
     let eventName = eventNameArgs.slice(1, eventNameArgs.length - 1);
+    let avatar = `https://steamcdn-a.akamaihd.net/steamcommunity/public/images/clans/33962671/dbb42b610a560b5c52a03e48a124ee4421ec0bc1.jpg`;
+    if (args[3] !== undefined) {
+       let avatarSlice = args[3];
+       let ASS = avatarSlice.slice(1, avatarSlice.length - 1)
+       avatar = ASS;
+    }
 
     setTimeout(() => channelInfo.send(`@everyone Сбор начинается через пол часа! в ${time} по МСК!`), getNotificationTimeout(time, 30));
     setTimeout(() => channelInfo.send(`@everyone Сбор через пять минут! в ${time} по МСК!`), getNotificationTimeout(time, 5));
@@ -23,7 +29,7 @@ export function events(msg, channelInfo) {
         .addField(`Описание`, `${eventName}`)
         .addField(`Время`, `${time} по МСК!`)
         .setColor(0x377755)
-        .setThumbnail(`https://steamcdn-a.akamaihd.net/steamcommunity/public/images/clans/33962671/dbb42b610a560b5c52a03e48a124ee4421ec0bc1.jpg`);
+        .setThumbnail(`${avatar}`)
     channelInfo.send(`@everyone`);
     channelInfo.send(embed);
 
