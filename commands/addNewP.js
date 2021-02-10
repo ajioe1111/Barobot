@@ -13,11 +13,8 @@ export function addNewP(msg) {
             let path = `./database/users/${file}`;
             let cacheUser = fs.readFileSync(path).toString();
             let users = JSON.parse(cacheUser);
-            users.omcCorpus = false;
-            users.omcCorpusGranted = false;
-            let date = new Date();
-            users.warnCount = 0;
-            users.joinedAt = date.toLocaleString();
+            users.level = 0;
+            users.xp = 0;
             fs.writeFileSync(path, JSON.stringify(users));
         }
         msg.reply(`Done!`);

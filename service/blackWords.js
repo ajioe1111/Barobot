@@ -7,6 +7,9 @@ import * as Discord from 'discord.js';
  * @param {Discord.Message} msg 
  */
 export function blackWords(msg, isAdmin, isOwner, logChannel) {
+    if (msg.channel.id == `809054903389519913`) {
+        return;
+    }
     //Блок получения информации о вкл/выкл данной опции.
     let guildID = msg.guild.id;
     if (fs.existsSync(`./database/guild/${guildID}.json`)) {

@@ -3,11 +3,14 @@ import * as Discord from 'discord.js';
 import * as fs from 'fs';
 /**
  * 
- * @param {Discord.} msg 
+ * @param {Discord.Message} msg 
  */
 
 export function urlChecker(msg, isAdmin, isModer, isOwner, logChannel) {
     //Блок получения информации о вкл/выкл данной опции.
+    if (msg.channel.id == `809054903389519913`) {
+        return;
+    }
     let guildID = msg.guild.id;
     if (fs.existsSync(`./database/guild/${guildID}.json`)) {
         let cacheOption = fs.readFileSync(`./database/guild/${guildID}.json`).toString();

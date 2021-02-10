@@ -19,6 +19,7 @@ import { setDefaultRole } from '../commands/setDefaultRole.js';
 import { urlChecker } from './urlChecker.js';
 import { say } from '../commands/say.js';
 import { addNewP } from '../commands/addNewP.js';
+import { dice } from '../commands/dice.js';
 
 
 
@@ -62,38 +63,38 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, logC
         //Технический уровень.
         if (msg.content.startsWith(prefix + `userslist`)) {
             userslist(botlog);
-            console.log(`${msg.author} user command "userslist"`);
+            console.log(`${msg.author} used command "userslist"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `get`)) {
             getUser(msg, botlog);
-            console.log(`${msg.author} user command "get"`);
+            console.log(`${msg.author} used command "get"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `addword`)) {
             addWord(msg);
-            console.log(`${msg.author} user command "addword"`);
+            console.log(`${msg.author} used command "addword"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `deleteword`)) {
             deleteWord(msg);
-            console.log(`${msg.author} user command "deleteword"`);
+            console.log(`${msg.author} used command "deleteword"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `init`) || msg.content == `$$guildremove`) {
             console.log(`point`)
             guildInit(msg, client, isAdmin, isOwner);
-            console.log(`${msg.author} user command "init"`);
+            console.log(`${msg.author} used command "init"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `setdefaultrole`)) {
             setDefaultRole(msg, client);
-            console.log(`${msg.author} user command "setdefaultrole"`);
+            console.log(`${msg.author} used command "setdefaultrole"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `say`)) {
             say(msg, client);
-            console.log(`${msg.author} user command "say"`);
+            console.log(`${msg.author} used command "say"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `test`)) {
@@ -109,34 +110,38 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, logC
     if (isModer || isOwner) {
         if (msg.content.startsWith(prefix + `clear`)) {
             clear(msg);
-            console.log(`${msg.author} user command "clear"`);
+            console.log(`${msg.author} used command "clear"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `event`)) {
             events(msg, channelInfo);
-            console.log(`${msg.author} user command "event"`);
+            console.log(`${msg.author} used command "event"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `info`)) {
             info(msg, botlog);
-            console.log(`${msg.author} user command "info"`);
+            console.log(`${msg.author} used command "info"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `mute`)) {
             muted(msg, guild, botlog);
-            console.log(`${msg.author} user command "mute"`);
+            console.log(`${msg.author} used command "mute"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `unmute`)) {
             unmuted(msg, guild, botlog);
-            console.log(`${msg.author} user command "unmute"`);
+            console.log(`${msg.author} used command "unmute"`);
             return;
         }
     }
     if (msg.content.startsWith(prefix + `bot`)) {
         botInfo(msg, botAvatar);
-        console.log(`${msg.author} user command "bot"`);
+        console.log(`${msg.author} used command "bot"`);
         return;
+    }
+    if (msg.content.startsWith(prefix + `dice`)) {
+        console.log(`${msg.author} used command "dice"`);
+        dice(msg);
     }
     blackWords(msg, isAdmin, isOwner, logChannel);
     urlChecker(msg, isAdmin, isModer, isOwner, logChannel);
