@@ -1,8 +1,18 @@
 import * as Discord from 'discord.js';
 
 export function dellMsg(messageDelete, logChannel) {
-    if (messageDelete != undefined && messageDelete.content != undefined && messageDelete.author.id != undefined && messageDelete.channel != undefined && messageDelete.id != undefined) {
+    if (messageDelete !== undefined && messageDelete.content !== undefined && messageDelete.author.id !== undefined && messageDelete.channel !== undefined && messageDelete.id !== undefined) {
         console.log(`${messageDelete.author} delete msg!`)
+        let consoleErr = {
+            message: messageDelete,
+            messageContent: messageDelete.content,
+            messageAuthorId: messageDelete.author.id,
+            messageChannel: messageDelete.channel,
+            messageId: messageDelete.id,
+        };
+
+        console.log(consoleErr);
+        
         const DeleteEmbed = new Discord.MessageEmbed()
             .setTitle("**Удалено сообщение!**")
             .setColor("#fc3c3c")
@@ -14,5 +24,6 @@ export function dellMsg(messageDelete, logChannel) {
         logChannel.send(DeleteEmbed);
     } else { 
         console.log(`Error MessagesDeleted.js // ошибка, не найден один из параметров`);
+        return;
     }
 }

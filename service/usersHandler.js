@@ -35,7 +35,7 @@ export function userDataSave(member, botlog) {
         let createdAt = member.user.createdAt; //
         let userTag = member.user.tag; //
         let userAvatar = member.user.displayAvatarURL(); //
-        let newUser = { user: username, id: userID, created_at: createdAt, avatarURL: userAvatar, user_tag: userTag, omcCorpus: false, omcCorpusGranted: false, joinedAt: member.joinedAt, warnCount: 0, level: 0, xp: 0 };
+        let newUser = { user: username, id: userID, created_at: createdAt, avatarURL: userAvatar, user_tag: userTag, omcCorpus: false, omcCorpusGranted: false, joinedAt: member.joinedAt, warnCount: 0, warn_end: 0, level: 0, xp: 0 };
         fs.writeFileSync(`./database/users/${userID}.json`, JSON.stringify(newUser));
         console.log(`${member} new member join!`)
         const newMember = new Discord.MessageEmbed()

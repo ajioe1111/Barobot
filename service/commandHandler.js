@@ -20,6 +20,8 @@ import { urlChecker } from './urlChecker.js';
 import { say } from '../commands/say.js';
 import { addNewP } from '../commands/addNewP.js';
 import { dice } from '../commands/dice.js';
+import { warn } from '../commands/warn.js';
+import { test } from '../commands/test.js';
 
 
 
@@ -98,12 +100,18 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, logC
             return;
         }
         else if (msg.content.startsWith(prefix + `test`)) {
-            console.log(`test`);
+            test(msg);
         }
         else if (msg.content.startsWith(prefix + `addnewP`)) {
             addNewP(msg);
             return;
         }
+        else if (msg.content.startsWith(prefix + `warn`)) {
+            let warnGuild = client.guilds.cache.find(guild => guild.id == `787699629944864839`);
+            let warnChannel = warnGuild.channels.cache.find(channel => channel.id == "796835472399007774");
+            warn(msg, warnChannel);
+        }
+
 
     }
     //Уровень Администратора.

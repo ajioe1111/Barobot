@@ -15,12 +15,14 @@ export function addNewP(msg) {
             let users = JSON.parse(cacheUser);
             users.level = 0;
             users.xp = 0;
+            users.warnCount = 0;
+            users.warn_end = 0;
             fs.writeFileSync(path, JSON.stringify(users));
         }
-        msg.reply(`Done!`);
+        msg.reply(`Новые параметры были успешно добавлены!`);
     }
     else {
-        msg.reply(`Недостаточно прав!`)
+        msg.reply(`Ты не Айка!`);
         return;
     }
 }

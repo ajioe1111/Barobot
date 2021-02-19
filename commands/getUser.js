@@ -44,6 +44,14 @@ export function getUser(msg, botlog) {
                         name: `Зашел на сервер`,
                         value: `${users.joinedAt}`
                     },
+                    {
+                        name: `Предупреждений на текущий момент`,
+                        value: `${users.warnCount}`,
+                    },
+                    {
+                        name: `Банов за лимит предупреждений`,
+                        value: `${users.warn_end}`,
+                    },
                 )
                 botlog.send(getUserEmbedded);
                 find = true;

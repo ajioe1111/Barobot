@@ -9,18 +9,13 @@ import { memberUpdate } from './log/memberUpdate.js';
 import { greetingNewMemberHub } from './personal_options/hub.js';
 import { omcMSGChecker, roleCheck } from './personal_options/omc.js';
 const client = new Discord.Client();
+export { client };
 let botAvatar;
-
 
 client.on('ready', () => {
     client.on('error', console.error);
     console.log(`Logged in as ${client.user.tag}!`);
     botAvatar = client.user.displayAvatarURL();
-    // Комент лишь для теста, перед заливкой снимать!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // let guildLog = client.guilds.cache.find(guild => guild.id == `789579914869080074`);
-    // let log = guildLog.channels.cache.find(channel => channel.id == `799306126159773726`);
-    // log.send(`<@333660691644809216> я запустился`);
-
 
 });
 
@@ -60,6 +55,9 @@ client.on('messageUpdate', (oldMsg, newMsg) => {
     if (oldMsg.channel.type == "dm") {
         return;
     }
+    if (oldMsg.content == newMsg.content) {
+        return;
+    }
     if (oldMsg && newMsg && newMsg.author.id !== client.user.id) {
         let logChannel = client.channels.cache.find(channel => channel.name == "log" && channel.guild.id == oldMsg.guild.id);
         msgLog(oldMsg, newMsg, logChannel);
@@ -80,7 +78,7 @@ client.on("messageDelete", (messageDelete) => {
     if (messageDelete.channel.type == "dm") {
         return;
     }
-    if (messageDelete && messageDelete.author.id !== client.user.id) {
+    if (messageDelete == true && messageDelete.author.id !== client.user.id && messageDelete.content != undefined) {
         let logChannel = client.channels.cache.find(channel => channel.name == "log" && channel.guild.id == messageDelete.guild.id);
         dellMsg(messageDelete, logChannel);
     }
