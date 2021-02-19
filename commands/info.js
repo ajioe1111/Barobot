@@ -11,6 +11,8 @@ export function info(msg, botlog) {
             .addField(`ID:`, `<@${userID}> ${userID}`)
             .addField(`Регистрация:`, `${user.createdAt}`)
             .addField(`ТЭГ:`, `${user.tag}`)
+            .addField(`Кол-во предупреждений`, `${user.warnCount}`)
+            .addField(`Кол-во банов за предупреждения`, `${user.warn_end}`)
             .setColor(0xff0000);
         botlog.send(embed);
     } else { botlog.send(`Текущего юзера нету на сервере, воспользуйтесь командой !infoID или запросите базу данных`) }
