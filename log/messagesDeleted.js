@@ -1,7 +1,7 @@
 import * as Discord from 'discord.js';
 
 export function dellMsg(messageDelete, logChannel) {
-    if (messageDelete !== undefined && messageDelete.content !== undefined && messageDelete.author.id !== undefined && messageDelete.channel !== undefined && messageDelete.id !== undefined) {
+    if (messageDelete !== undefined) {
         console.log(`${messageDelete.author} delete msg!`)
         let consoleErr = {
             message: messageDelete,

@@ -78,7 +78,7 @@ client.on("messageDelete", (messageDelete) => {
     if (messageDelete.channel.type == "dm") {
         return;
     }
-    if (messageDelete == true && messageDelete.author.id !== client.user.id && messageDelete.content != undefined) {
+    else {
         let logChannel = client.channels.cache.find(channel => channel.name == "log" && channel.guild.id == messageDelete.guild.id);
         dellMsg(messageDelete, logChannel);
     }
