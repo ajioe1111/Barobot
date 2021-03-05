@@ -17,7 +17,6 @@ export function userDataSave(member, botlog) {
         console.log(`${member} old member join!`)
         const oldMember = new Discord.MessageEmbed()
         .setTitle(`Зашел старый пользователь`)
-        .setDescription(`пользователь уже есть в базе`)
         .addFields(
             {name: `Пользователь`, value: `${member.displayName}`},
             {name: `ID`, value: `${member.id}`, inline: true},
@@ -40,7 +39,6 @@ export function userDataSave(member, botlog) {
         console.log(`${member} new member join!`)
         const newMember = new Discord.MessageEmbed()
         .setTitle(`Зашел новый пользователь`)
-        .setDescription(`пользователя нету в базе`)
         .addFields(
             {name: `Пользователь`, value: `${member.displayName}`},
             {name: `ID`, value: `${member.id}`, inline: true},

@@ -16,7 +16,6 @@ client.on('ready', () => {
     client.on('error', console.error);
     console.log(`Logged in as ${client.user.tag}!`);
     botAvatar = client.user.displayAvatarURL();
-
 });
 
 client.on('guildMemberRemove', member => {
@@ -51,6 +50,16 @@ client.on('message', msg => {
     }
 });
 
+client.on("messageDelete", (messageDelete) => {
+    if (messageDelete.channel.type == "dm") {
+        return;
+    }
+    else {
+        let logChannel = client.channels.cache.find(channel => channel.name == "log" && channel.guild.id == messageDelete.guild.id);
+        dellMsg(messageDelete, logChannel);
+    }
+});
+
 client.on('messageUpdate', (oldMsg, newMsg) => {
     if (oldMsg.channel.type == "dm") {
         return;
@@ -74,15 +83,6 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
     }
 });
 
-client.on("messageDelete", (messageDelete) => {
-    if (messageDelete.channel.type == "dm") {
-        return;
-    }
-    else {
-        let logChannel = client.channels.cache.find(channel => channel.name == "log" && channel.guild.id == messageDelete.guild.id);
-        dellMsg(messageDelete, logChannel);
-    }
-});
 
 
 

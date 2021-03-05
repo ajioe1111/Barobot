@@ -1,27 +1,30 @@
-// eslint-disable-next-line no-unused-vars
-import * as fs from 'fs';
+
 // eslint-disable-next-line no-unused-vars
 import * as Discord from 'discord.js';
 import config from '../config.js'
-import { getUser } from '../commands/getUser.js';
-import { userslist } from '../commands/userslist.js';
-import { clear } from '../commands/clear.js';
-import { botInfo } from '../commands/botInfo.js';
-import { events } from '../commands/events.js';
-import { info } from '../commands/info.js';
-import { muted } from '../commands/mute.js';
-import { unmuted } from '../commands/unmuted.js';
+import { getUser } from '../commands/admin/getUser.js';
+import { userslist } from '../commands/admin/userslist.js';
+import { clear } from '../commands/moder/clear.js';
+import { botInfo } from '../commands/user/botInfo.js';
+import { events } from '../commands/gm/events.js';
+import { info } from '../commands/moder/info.js';
+import { muted } from '../commands/moder/mute.js';
+import { unmuted } from '../commands/moder/unmuted.js';
 import { blackWords } from './blackWords.js';
-import { addWord } from '../commands/addWord.js';
-import { deleteWord } from '../commands/deleteWord.js';
-import { guildInit } from '../commands/guildInit.js';
-import { setDefaultRole } from '../commands/setDefaultRole.js';
+import { addWord } from '../commands/admin/addWord.js';
+import { deleteWord } from '../commands/admin/deleteWord.js';
+import { guildInit } from '../commands/admin/guildInit.js';
+import { setDefaultRole } from '../commands/admin/setDefaultRole.js';
 import { urlChecker } from './urlChecker.js';
-import { say } from '../commands/say.js';
-import { addNewP } from '../commands/addNewP.js';
-import { dice } from '../commands/dice.js';
-import { warn } from '../commands/warn.js';
+import { say } from '../commands/admin/say.js';
+import { addNewP } from '../commands/admin/addNewP.js';
+import { dice } from '../commands/user/dice.js';
+import { warn } from '../commands/gm/warn.js';
 import { test } from '../commands/test.js';
+import { groupChecker } from './groupHendler.js';
+import { guildRemove } from '../commands/admin/guildRemove.js';
+import { hubChecker } from './hubChecker.js';
+//import { newEvents } from '../commands/gm/newEvents.js';
 
 
 
@@ -36,33 +39,15 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, logC
     if (msg.author.bot) {
         return;
     }
+    hubChecker(msg);  //Раскоментить перед заливкой
+    let user = msg.author;
     let guild = msg.guild;
-    let guildMember = guild.members.cache.find(member => member.user.id == msg.author.id);
+    let userRole = groupChecker(user, guild);
+    blackWords(msg, userRole,logChannel);
+    urlChecker(msg, userRole, logChannel);
 
-    if (guildMember == undefined) {
-        console.log(`*ERROR* Пользователь не найден.`);
-        return;
-    }
 
-    let level1 = 'bot-level1';
-    let level2 = 'bot-level2';
-    let isAdmin = false;
-    let isModer = false;
-    let isOwner = false;
-
-    if (guildMember.roles.cache.find(role => role.name == level2)) {
-        isAdmin = true;
-    }
-
-    if (guildMember.roles.cache.find(role => role.name == level1) || isAdmin) {
-        isModer = true;
-    }
-    if (msg.author.id == `333660691644809216`) {
-        isOwner = true;
-    }
-
-    if (isAdmin || isOwner) {
-        //Технический уровень.
+    if (userRole == `isAdmin`) {
         if (msg.content.startsWith(prefix + `userslist`)) {
             userslist(botlog);
             console.log(`${msg.author} used command "userslist"`);
@@ -83,10 +68,13 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, logC
             console.log(`${msg.author} used command "deleteword"`);
             return;
         }
-        else if (msg.content.startsWith(prefix + `init`) || msg.content == `$$guildremove`) {
-            console.log(`point`)
-            guildInit(msg, client, isAdmin, isOwner);
+        else if (msg.content.startsWith(prefix + `init`)) {
+            guildInit(msg, client);
             console.log(`${msg.author} used command "init"`);
+            return;
+        }
+        else if (msg.content.startsWith(prefix + `guildremove`)) {
+            guildRemove(msg);
             return;
         }
         else if (msg.content.startsWith(prefix + `setdefaultrole`)) {
@@ -106,24 +94,29 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, logC
             addNewP(msg);
             return;
         }
-        else if (msg.content.startsWith(prefix + `warn`)) {
+    }
+    if (userRole == `isGm` || userRole == `isAdmin`) {
+        if (msg.content.startsWith(prefix + `event`)) {
+            events(msg, channelInfo);
+            console.log(`${msg.author} used command "event"`);
+            return;
+        }
+        if (msg.content.startsWith(prefix + `newEvent`)) {
+           // newEvents(msg);
+            console.log(`${msg.author} used command "newEvent"`);
+            return;
+        }
+    }
+
+    if (userRole == `isModerator` || userRole == `isGm` || userRole == `isAdmin`) {
+        if (msg.content.startsWith(prefix + `warn`)) {
             let warnGuild = client.guilds.cache.find(guild => guild.id == `787699629944864839`);
             let warnChannel = warnGuild.channels.cache.find(channel => channel.id == "796835472399007774");
             warn(msg, warnChannel);
         }
-
-
-    }
-    //Уровень Администратора.
-    if (isModer || isOwner) {
         if (msg.content.startsWith(prefix + `clear`)) {
             clear(msg);
             console.log(`${msg.author} used command "clear"`);
-            return;
-        }
-        else if (msg.content.startsWith(prefix + `event`)) {
-            events(msg, channelInfo);
-            console.log(`${msg.author} used command "event"`);
             return;
         }
         else if (msg.content.startsWith(prefix + `info`)) {
@@ -142,15 +135,15 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, logC
             return;
         }
     }
-    if (msg.content.startsWith(prefix + `bot`)) {
-        botInfo(msg, botAvatar);
-        console.log(`${msg.author} used command "bot"`);
-        return;
-    }
+    if (userRole == `isUser` || userRole == `isModerator` || userRole == `isGm` || userRole == `isAdmin`)
+        if (msg.content.startsWith(prefix + `bot`)) {
+            botInfo(msg, botAvatar);
+            console.log(`${msg.author} used command "bot"`);
+            return;
+        }
     if (msg.content.startsWith(prefix + `dice`)) {
         console.log(`${msg.author} used command "dice"`);
         dice(msg);
     }
-    blackWords(msg, isAdmin, isOwner, logChannel);
-    urlChecker(msg, isAdmin, isModer, isOwner, logChannel);
+
 }

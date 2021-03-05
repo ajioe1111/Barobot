@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as Discord from 'discord.js';
-import { getArguments } from '../service/getArguments.js';
-import { client } from '../bot.js';
-import { userBan } from '../service/ban.js';
+import { getArguments } from '../../service/getArguments.js';
+import { client } from '../../bot.js';
+import { userBan } from '../../service/ban.js';
 
 /**
  * 

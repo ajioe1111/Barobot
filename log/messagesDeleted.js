@@ -3,15 +3,15 @@ import * as Discord from 'discord.js';
 export function dellMsg(messageDelete, logChannel) {
     if (messageDelete !== undefined) {
         console.log(`${messageDelete.author} delete msg!`)
-        let consoleErr = {
-            message: messageDelete,
-            messageContent: messageDelete.content,
-            messageAuthorId: messageDelete.author.id,
-            messageChannel: messageDelete.channel,
-            messageId: messageDelete.id,
-        };
+        // let consoleErr = {
+        //     message: messageDelete,
+        //     messageContent: messageDelete.content,
+        //     messageAuthorId: messageDelete.author.id,
+        //     messageChannel: messageDelete.channel,
+        //     messageId: messageDelete.id,
+        // };
 
-        console.log(consoleErr);
+        // console.log(consoleErr);
         
         const DeleteEmbed = new Discord.MessageEmbed()
             .setTitle("**Удалено сообщение!**")

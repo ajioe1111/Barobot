@@ -1,19 +1,11 @@
 import * as fs from 'fs';
-// eslint-disable-next-line no-unused-vars
-import * as Discord from 'discord.js';
+import { client } from '../../bot.js';
 
-/**
- * 
- * @param {Discord.Message} msg 
- */
-export function guildInit(msg, client, isAdmin, isOwner) {
+
+
+
+export function guildInit(msg) {
     let guildId = client.guilds.cache.find(guildId => guildId.id == msg.guild.id)
-    if (msg.content == `$$guildremove` && isAdmin || msg.content == `$$guildremove` && isOwner) {
-        fs.unlinkSync(`./database/guild/${guildId.id}.json`);
-        msg.reply(`Сервер удален из базы`);
-        return;
-    }
-
     let listing = fs.readdirSync("./database/guild");
     for (let i = 0; i < listing.length; i++) {
         let guildJSON = guildId + '.json'

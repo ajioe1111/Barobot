@@ -1,6 +1,5 @@
 
-import { getNotificationTimeout } from './../service/getNotificationTimeout.js';
-import { getArguments } from './../service/getArguments.js';
+import { getArguments } from '../../service/getArguments.js';
 import * as Discord from 'discord.js';
 /**
  * 
@@ -34,4 +33,19 @@ export function events(msg, channelInfo) {
     channelInfo.send(embed);
 
 
+}
+
+
+function getNotificationTimeout(time, beforeMinutes) {
+    let targetDate = new Date();
+    let HMS = time.split(':');
+    targetDate.setHours(HMS[0]);
+    targetDate.setMinutes(HMS[1] - beforeMinutes);
+    targetDate.setSeconds(HMS[2]);
+
+    if (targetDate < new Date())
+        targetDate = new Date(targetDate.getDate() + 1);
+
+    let dateDiff = targetDate - new Date();
+    return dateDiff;
 }

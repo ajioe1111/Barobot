@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import * as Discord from 'discord.js';
-import { getArguments } from '../service/getArguments.js';
+import { getArguments } from '../../service/getArguments.js';
 /**
  * 
  * @param {Discord.Message} msg 
