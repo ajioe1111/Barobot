@@ -110,9 +110,7 @@ export function commandHandler(msg, botlog, botAvatar, channelInfo, client, logC
 
     if (userRole == `isModerator` || userRole == `isGm` || userRole == `isAdmin`) {
         if (msg.content.startsWith(prefix + `warn`)) {
-            let warnGuild = client.guilds.cache.find(guild => guild.id == `787699629944864839`);
-            let warnChannel = warnGuild.channels.cache.find(channel => channel.id == "796835472399007774");
-            warn(msg, warnChannel);
+            warn(msg);
         }
         if (msg.content.startsWith(prefix + `clear`)) {
             clear(msg);
