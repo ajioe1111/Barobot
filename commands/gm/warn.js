@@ -11,8 +11,7 @@ import { userBan } from '../../service/ban.js';
 export function warn(msg) {
 
     let args = getArguments(msg.content);
-    let UserId = args[1];
-    let mentionUserId = UserId.slice(1, UserId.length - 1);
+    let mentionUserId = args[1];
     let textArgs = args[2];
     let text = textArgs.slice(1, textArgs.length - 1);
     let findGuild = client.guilds.cache.find(guild => guild.id === `789579914869080074`);
