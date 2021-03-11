@@ -8,6 +8,7 @@ import { dellMsg } from './log/messagesDeleted.js';
 import { memberUpdate } from './log/memberUpdate.js';
 import { greetingNewMemberHub } from './personal_options/hub.js';
 import { omcMSGChecker, roleCheck } from './personal_options/omc.js';
+import { hubChecker } from './service/hubCheckerJoin.js';
 const client = new Discord.Client();
 export { client };
 let botAvatar;
@@ -35,6 +36,7 @@ client.on('guildMemberAdd', member => {
         console.log(`Member join to hub. ${member.user.id}`);
         return;
     }
+    hubChecker(member);
 });
 
 client.on('message', msg => {
